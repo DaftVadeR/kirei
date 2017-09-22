@@ -1,84 +1,56 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\ImagePost;
+use App\Repositories\ImagePostRepository;
+use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 
 class ImagePostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    private $imagePostRepository;
+
+    public function __construct()
+    {
+        $this->imagePostRepository = new ImagePostRepository();
+    }
+
+    public function index(Request $request)
+    {
+        $posts = $this->imagePostRepository->getPaginatedPosts();
+
+        return view('image_posts.index', compact($posts));
+    }
+
+    public function create(Repository $request)
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\ImagePost  $imagePost
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ImagePost $imagePost)
+    public function show(Request $request)
+    {
+        $id = $request->get('id');
+
+        $post = $this->imagePostRepository->getImagePost($id);
+
+        return view('image_posts.index', compact($post));
+    }
+
+    public function edit(Request $request)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ImagePost  $imagePost
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ImagePost $imagePost)
+    public function update(Request $request)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ImagePost  $imagePost
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ImagePost $imagePost)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\ImagePost  $imagePost
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ImagePost $imagePost)
+    public function destroy(Request $request)
     {
         //
     }
